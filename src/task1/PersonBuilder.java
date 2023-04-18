@@ -1,9 +1,11 @@
 package task1;
 
+import java.util.OptionalInt;
+
 public class PersonBuilder {
     private String name;
     private String surname;
-    private int age = 0;
+    private OptionalInt age;
     private String address;
 
     public PersonBuilder() {
@@ -26,7 +28,7 @@ public class PersonBuilder {
 
     public PersonBuilder setAge(int age) {
         if (age > 0) {
-            this.age = age;
+            this.age = OptionalInt.of(age);
         } else {
             throw new IllegalArgumentException("Некорректное значение для возраста");
         }
@@ -40,11 +42,13 @@ public class PersonBuilder {
 
     public Person build() {
         if (name == null){
-            throw new IllegalArgumentException("У человека должно быть имя!");
+            throw new IllegalStateException("У человека должно быть имя!");
         } else if (surname == null){
-            throw new IllegalArgumentException("У человека должна быть фамилия!");
-        } else {
+            throw new IllegalStateException("У человека должна быть фамилия!");
+        } else if (age == null) {
+            this.age = OptionalInt.of(0);
+        }
             return new Person(name, surname, age, address);
         }
     }
-}
+

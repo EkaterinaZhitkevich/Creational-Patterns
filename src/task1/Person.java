@@ -1,10 +1,12 @@
 package task1;
 
 
+import java.util.OptionalInt;
+
 public class Person {
     private final String name;
     private final String surname;
-    private int age = 0;
+    private OptionalInt age;
     private String address;
 
     public Person(String name, String surname) {
@@ -12,7 +14,7 @@ public class Person {
         this.surname = surname;
     }
 
-    public Person(String name, String surname, int age, String address) {
+    public Person(String name, String surname, OptionalInt age, String address) {
         this.name = name;
         this.surname = surname;
         this.age = age;
@@ -21,7 +23,7 @@ public class Person {
 
     public void setAge(int age) {
         if (age > 0) {
-            this.age = age;
+            this.age = OptionalInt.of(age);
         } else {
             throw new IllegalArgumentException("Некорректное значение для возраста");
         }
@@ -45,7 +47,7 @@ public class Person {
     }
 
     public int getAge() {
-        return age;
+        return age.getAsInt();
     }
 
     public String getAddress() {
@@ -53,18 +55,13 @@ public class Person {
     }
 
     public void happyBirthday() {
-        if (this.age != 0) {
-            this.age++;
+        if (this.age.getAsInt() != 0) {
+            this.age = OptionalInt.of(age.getAsInt()+1);
         }
     }
 
     public boolean hasAge() {
-        boolean hasAge = false;
-        if (this.age != 0) {
-            return !hasAge;
-        } else {
-            return hasAge;
-        }
+        return age.isPresent();
     }
 
     public boolean hasAddress() {
@@ -85,7 +82,11 @@ public class Person {
         final StringBuilder sb = new StringBuilder("task1.Person{");
         sb.append("name='").append(name).append('\'');
         sb.append(", surname='").append(surname).append('\'');
-        sb.append(", age=").append(age);
+        if (this.age.isPresent()) {
+            sb.append(", age=").append(age.getAsInt());
+        } else {
+            sb.append(", age=").append(" не установлен");
+        }
         sb.append(", address='").append(address).append('\'');
         sb.append('}');
         return sb.toString();

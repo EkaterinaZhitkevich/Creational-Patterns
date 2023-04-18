@@ -18,6 +18,7 @@ public class Main {
                 .setName("Иван")
                 .setSurname("Павлов")
                 .build();
+        System.out.println(mom);
         System.out.println(son);
 
     }
