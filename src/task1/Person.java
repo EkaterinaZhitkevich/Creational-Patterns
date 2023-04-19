@@ -46,8 +46,8 @@ public class Person {
         else throw new IllegalArgumentException("У человека должна быть фамилия!");
     }
 
-    public int getAge() {
-        return age.getAsInt();
+    public OptionalInt getAge() {
+        return age;
     }
 
     public String getAddress() {

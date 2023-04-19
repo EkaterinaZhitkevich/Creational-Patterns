@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Person person1 = new PersonBuilder().setName("Мария").setSurname("Петрова").setAge(28).build();
         person1.happyBirthday();
-        System.out.println(person1.getAge());
+        System.out.println(person1.getAge().getAsInt());
         System.out.println(person1.hasAddress());
         System.out.println(person1.hasAge());
 
