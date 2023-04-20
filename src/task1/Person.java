@@ -34,8 +34,9 @@ public class Person {
     }
 
     public String getName() {
-        if (name != null)
-        return name;
+        if (name != null) {
+            return name;
+        }
         else
             throw new IllegalArgumentException("У человека должно быть имя!");
     }
@@ -47,7 +48,11 @@ public class Person {
     }
 
     public OptionalInt getAge() {
-        return age;
+        if (this.age != null) {
+            return age;
+        } else {
+            return OptionalInt.empty();
+        }
     }
 
     public String getAddress() {
