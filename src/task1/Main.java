@@ -20,6 +20,8 @@ public class Main {
                 .build();
         System.out.println(mom);
         System.out.println(son);
+        System.out.println(son.getAge());
+
 
     }
 }

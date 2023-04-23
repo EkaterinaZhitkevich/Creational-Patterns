@@ -2,6 +2,7 @@ package task1;
 
 import java.util.OptionalInt;
 
+
 public class PersonBuilder {
     private String name;
     private String surname;
@@ -16,6 +17,7 @@ public class PersonBuilder {
         this.surname = surname;
     }
 
+
     public PersonBuilder setName(String name) {
         this.name = name;
         return this;
@@ -27,6 +29,12 @@ public class PersonBuilder {
     }
 
     public PersonBuilder setAge(int age) {
+        if (this.age == null) {
+            this.age = OptionalInt.of(age);
+        } else {
+            throw new IllegalStateException("Возраст уже установлен");
+        }
+
         if (age > 0) {
             this.age = OptionalInt.of(age);
         } else {
@@ -41,14 +49,14 @@ public class PersonBuilder {
     }
 
     public Person build() {
-        if (name == null){
+        if (name == null) {
             throw new IllegalStateException("У человека должно быть имя!");
-        } else if (surname == null){
+        } else if (surname == null) {
             throw new IllegalStateException("У человека должна быть фамилия!");
         } else if (age == null) {
             this.age = OptionalInt.of(0);
         }
-            return new Person(name, surname, age, address);
-        }
+        return new Person(name, surname, age.getAsInt(), address);
     }
+}
 

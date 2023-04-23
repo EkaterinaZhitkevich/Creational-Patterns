@@ -4,6 +4,7 @@ package task1;
 import java.util.OptionalInt;
 
 public class Person {
+
     private final String name;
     private final String surname;
     private OptionalInt age;
@@ -14,14 +15,21 @@ public class Person {
         this.surname = surname;
     }
 
-    public Person(String name, String surname, OptionalInt age, String address) {
+    public Person(String name, String surname, int age, String address) {
         this.name = name;
         this.surname = surname;
-        this.age = age;
+        this.age = OptionalInt.of(age);
         this.address = address;
+
     }
 
     public void setAge(int age) {
+        if (this.age == null) {
+            this.age = OptionalInt.of(age);
+        } else {
+            throw new IllegalStateException("Возраст уже установлен");
+        }
+
         if (age > 0) {
             this.age = OptionalInt.of(age);
         } else {
@@ -36,19 +44,21 @@ public class Person {
     public String getName() {
         if (name != null) {
             return name;
-        }
-        else
+        } else {
             throw new IllegalArgumentException("У человека должно быть имя!");
+        }
     }
 
     public String getSurname() {
-        if ( surname != null)
-        return surname;
-        else throw new IllegalArgumentException("У человека должна быть фамилия!");
+        if (surname != null) {
+            return surname;
+        } else {
+            throw new IllegalArgumentException("У человека должна быть фамилия!");
+        }
     }
 
     public OptionalInt getAge() {
-        if (this.age != null) {
+        if (this.age.isPresent()) {
             return age;
         } else {
             return OptionalInt.empty();
@@ -60,9 +70,15 @@ public class Person {
     }
 
     public void happyBirthday() {
-        if (this.age.getAsInt() != 0) {
-            this.age = OptionalInt.of(age.getAsInt()+1);
+        if (!age.isPresent()) {
+            throw new IllegalStateException("Невозможно вызать данный метод, если возраст не указан");
         }
+        if (age.isPresent()) {
+            int currentAge = age.getAsInt();
+            age = OptionalInt.of(currentAge + 1);
+            return;
+        }
+
     }
 
     public boolean hasAge() {
@@ -70,12 +86,7 @@ public class Person {
     }
 
     public boolean hasAddress() {
-        boolean hasAddress = false;
-        if (this.address == null) {
-            return hasAddress;
-        } else {
-            return !hasAddress;
-        }
+        return address == null;
     }
 
     public PersonBuilder newChildBuilder() {
